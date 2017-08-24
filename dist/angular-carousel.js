@@ -1,6 +1,6 @@
 /**
  * Angular Carousel - Mobile friendly touch carousel for AngularJS
- * @version v2.0.3 - 2017-08-22
+ * @version v2.0.4 - 2017-08-24
  * @link http://revolunet.github.com/angular-carousel
  * @author Julien Bouquillon <julien@revolunet.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -438,7 +438,7 @@ angular.module('angular-carousel').run(['$templateCache', function($templateCach
                                         return;
                                     }
                                 }
-                                
+
                                 updateContainerWidth();
                                 elX = iElement[0].querySelector('li').getBoundingClientRect().left;
                                 pressed = true;
@@ -452,6 +452,26 @@ angular.module('angular-carousel').run(['$templateCache', function($templateCach
                                 bindMouseUpEvent();
                                 if (pressed) {
                                     x = coords.x;
+
+                                    var carouselElement = document.querySelectorAll("[rn-carousel]")[0];
+
+                                    if (carouselElement) {
+                                        var loop = carouselElement.getAttribute("rn-carousel-loop");
+
+                                        if (loop === "false") {
+                                            var swipeRight = startX < x;
+                                            var swipeLeft = startX > x;
+
+                                            if (swipeRight && event.target.closest("li").id === currentSlides[0].id.toString()) {
+                                                return;
+                                            }
+
+                                            if (swipeLeft && event.target.closest("li").id === currentSlides[currentSlides.length - 1].id.toString()) {
+                                                return;
+                                            }
+                                        }
+                                    }
+
                                     delta = startX - x;
                                     if (delta > 2 || delta < -2) {
                                         swipeMoved = true;
