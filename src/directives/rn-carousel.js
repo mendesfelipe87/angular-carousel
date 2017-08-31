@@ -531,10 +531,34 @@
                                     return;
                                 }
                                 unbindMouseUpEvent();
+
+                                if (currentSlides) {
+                                    var carouselElement = document.querySelectorAll("[rn-carousel]")[0];
+
+                                    if (carouselElement) {
+                                        var loop = carouselElement.getAttribute("rn-carousel-loop");
+
+                                        if (loop === "false") {
+                                            var swipeRight = startX < coords.x;
+                                            var swipeLeft = startX > coords.x;
+
+                                            if (swipeRight && event.target.closest("li").id === currentSlides[0].id.toString()) {
+                                                return;
+                                            }
+
+                                            if (swipeLeft && event.target.closest("li").id === currentSlides[currentSlides.length - 1].id.toString()) {
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+
                                 pressed = false;
                                 swipeMoved = false;
-                                destination = startX - coords.x;
-                                if (destination === 0) {
+                                if (startX !== undefined) {
+                                    destination = startX - coords.x;
+                                }
+                                if (destination === undefined || destination === 0) {
                                     return;
                                 }
                                 if (locked) {
