@@ -1,6 +1,6 @@
 /**
  * Angular Carousel - Mobile friendly touch carousel for AngularJS
- * @version v2.0.5 - 2017-08-31
+ * @version v2.0.6 - 2017-10-04
  * @link http://revolunet.github.com/angular-carousel
  * @author Julien Bouquillon <julien@revolunet.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -611,32 +611,10 @@ angular.module('angular-carousel').run(['$templateCache', function($templateCach
                                 }
                                 unbindMouseUpEvent();
 
-                                if (currentSlides) {
-                                    var carouselElement = document.querySelectorAll("[rn-carousel]")[0];
-
-                                    if (carouselElement) {
-                                        var loop = carouselElement.getAttribute("rn-carousel-loop");
-
-                                        if (loop === "false") {
-                                            var swipeRight = startX < coords.x;
-                                            var swipeLeft = startX > coords.x;
-
-                                            if (swipeRight && event.target.closest("li").id === currentSlides[0].id.toString()) {
-                                                return;
-                                            }
-
-                                            if (swipeLeft && event.target.closest("li").id === currentSlides[currentSlides.length - 1].id.toString()) {
-                                                return;
-                                            }
-                                        }
-                                    }
-                                }
-
                                 pressed = false;
                                 swipeMoved = false;
-                                if (startX !== undefined) {
-                                    destination = startX - coords.x;
-                                }
+                                destination = startX - coords.x;
+
                                 if (destination === undefined || destination === 0) {
                                     return;
                                 }
